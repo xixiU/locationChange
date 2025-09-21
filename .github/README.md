@@ -167,6 +167,10 @@ APPSTORE_PRIVATE_KEY         # App Store Connect私钥
 3. **敏感信息**: 不要在代码中硬编码密钥和密码
 4. **构建时间**: iOS构建可能需要较长时间，合理设置超时时间
 5. **存储空间**: 定期清理旧的构建产物以节省存储空间
+6. **Actions版本**: 使用最新版本的GitHub Actions以避免弃用警告
+   - `actions/checkout@v4` ✅
+   - `actions/upload-artifact@v4` ✅
+   - `actions/cache@v4` ✅
 
 ## 🆘 故障排除
 
