@@ -1,5 +1,12 @@
 # 虚拟定位 iOS 应用
 
+![CI Status](https://github.com/your-username/location_change/workflows/Continuous%20Integration/badge.svg)
+![iOS Build](https://github.com/your-username/location_change/workflows/iOS%20Build%20and%20Archive/badge.svg)
+![Release](https://github.com/your-username/location_change/workflows/Release%20Build/badge.svg)
+![iOS Version](https://img.shields.io/badge/iOS-17.0%2B-blue.svg)
+![Xcode Version](https://img.shields.io/badge/Xcode-15.0%2B-blue.svg)
+![Swift Version](https://img.shields.io/badge/Swift-5.0%2B-orange.svg)
+
 一款功能完整的iOS虚拟定位应用，支持自定义位置设置、位置搜索、历史记录和收藏功能。
 
 ## 功能特性
@@ -125,10 +132,47 @@ LocationChanger/
 
 ## 安装说明
 
-1. 使用Xcode打开项目文件
-2. 连接iOS设备或选择模拟器
-3. 点击运行按钮编译安装
-4. 首次运行需要信任开发者证书
+### 本地开发安装
+
+1. 克隆项目到本地
+
+   ```bash
+   git clone https://github.com/your-username/location_change.git
+
+   cd location_change
+
+   ```
+
+2. 使用Xcode打开项目文件
+
+   ```bash
+   open LocationChanger.xcodeproj
+   ```
+
+3. 连接iOS设备或选择模拟器
+4. 点击运行按钮编译安装
+5. 首次运行需要信任开发者证书
+
+### 自动化构建
+
+本项目配置了GitHub Actions自动化工作流：
+
+- **持续集成**: 每次推送代码时自动进行代码检查和构建测试
+- **自动构建**: 合并到主分支时自动构建IPA文件
+- **发布管理**: 创建Release时自动生成发布包和说明
+
+#### 创建发布版本
+
+1. **手动触发发布**:
+   - 访问GitHub Actions页面
+   - 选择"Release Build"工作流
+   - 点击"Run workflow"输入版本信息
+
+2. **自动发布**:
+   - 在GitHub上创建新的Release
+   - 系统将自动构建并上传发布包
+
+详细的GitHub Actions配置说明请查看 [.github/README.md](.github/README.md)
 
 ## 许可证
 
