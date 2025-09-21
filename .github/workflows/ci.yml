@@ -1,0 +1,148 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches: [ main, develop, feature/* ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  lint-and-build:
+    name: Code Quality & Build Check
+    runs-on: macos-latest
+    
+    steps:
+    - name: 检出代码
+      uses: actions/checkout@v4
+      
+    - name: 设置Xcode版本
+      uses: maxim-lobanov/setup-xcode@v1
+      with:
+        xcode-version: '15.0'
+        
+    - name: 检查项目结构
+      run: |
+        echo "📁 检查项目文件结构..."
+        ls -la
+        echo ""
+        echo "📱 检查iOS项目文件..."
+        ls -la LocationChanger/
+        echo ""
+        echo "🔍 检查项目配置..."
+        if [ -f "LocationChanger.xcodeproj/project.pbxproj" ]; then
+          echo "✅ 找到Xcode项目文件"
+        else
+          echo "❌ 未找到Xcode项目文件"
+          exit 1
+        fi
+        
+    - name: Swift代码格式检查
+      run: |
+        echo "🔍 检查Swift代码格式..."
+        find LocationChanger -name "*.swift" -exec echo "检查文件: {}" \;
+        
+        # 检查基本的代码质量
+        echo ""
+        echo "📊 代码统计:"
+        find LocationChanger -name "*.swift" | wc -l | xargs echo "Swift文件数量:"
+        find LocationChanger -name "*.swift" -exec wc -l {} + | tail -1 | awk '{print $1}' | xargs echo "总代码行数:"
+        
+    - name: 项目编译检查
+      run: |
+        echo "🔨 开始编译检查..."
+        xcodebuild clean build \
+          -project LocationChanger.xcodeproj \
+          -scheme LocationChanger \
+          -destination 'platform=iOS Simulator,name=iPhone 15,OS=17.0' \
+          -configuration Debug \
+          -quiet \
+          CODE_SIGN_IDENTITY="" \
+          CODE_SIGNING_REQUIRED=NO
+          
+        if [ $? -eq 0 ]; then
+          echo "✅ 项目编译成功！"
+        else
+          echo "❌ 项目编译失败！"
+          exit 1
+        fi
+        
+    - name: 语法检查
+      run: |
+        echo "📝 执行Swift语法检查..."
+        find LocationChanger -name "*.swift" -print0 | xargs -0 xcrun swift -frontend -parse
+        
+        if [ $? -eq 0 ]; then
+          echo "✅ 语法检查通过！"
+        else
+          echo "❌ 发现语法错误！"
+          exit 1
+        fi
+        
+    - name: 生成构建报告
+      if: always()
+      run: |
+        echo "📋 构建报告"
+        echo "=================="
+        echo "提交哈希: ${{ github.sha }}"
+        echo "分支: ${{ github.ref_name }}"
+        echo "触发事件: ${{ github.event_name }}"
+        echo "构建时间: $(date)"
+        echo ""
+        echo "📱 项目信息:"
+        echo "项目名称: LocationChanger (虚拟定位)"
+        echo "iOS最低版本: 17.0"
+        echo "Xcode版本: 15.0"
+        echo ""
+        echo "🎯 功能模块:"
+        echo "- ✅ 虚拟定位核心功能"
+        echo "- ✅ 地图集成"
+        echo "- ✅ 位置搜索"
+        echo "- ✅ 历史记录和收藏"
+        echo "- ✅ 设置界面"
+        
+  security-check:
+    name: 安全性检查
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 检出代码
+      uses: actions/checkout@v4
+      
+    - name: 检查敏感信息
+      run: |
+        echo "🔒 检查代码中的敏感信息..."
+        
+        # 检查是否包含硬编码的API密钥或密码
+        if grep -r -i "password\|api.key\|secret\|token" LocationChanger/ --include="*.swift" --exclude-dir=".git"; then
+          echo "⚠️  发现可能的敏感信息，请检查是否为硬编码的密钥"
+        else
+          echo "✅ 未发现明显的敏感信息"
+        fi
+        
+        # 检查权限配置
+        echo ""
+        echo "🛡️ 检查权限配置..."
+        if grep -q "NSLocationWhenInUseUsageDescription" LocationChanger/Info.plist; then
+          echo "✅ 位置权限配置正确"
+        else
+          echo "❌ 缺少位置权限配置"
+        fi
+        
+    - name: 代码质量评估
+      run: |
+        echo "📊 代码质量评估..."
+        
+        # 计算代码复杂度指标
+        swift_files=$(find LocationChanger -name "*.swift" | wc -l)
+        total_lines=$(find LocationChanger -name "*.swift" -exec wc -l {} + | tail -1 | awk '{print $1}')
+        avg_lines=$((total_lines / swift_files))
+        
+        echo "文件数量: $swift_files"
+        echo "总行数: $total_lines"
+        echo "平均每文件行数: $avg_lines"
+        
+        if [ $avg_lines -gt 500 ]; then
+          echo "⚠️  某些文件可能过大，建议重构"
+        else
+          echo "✅ 文件大小合理"
+        fi

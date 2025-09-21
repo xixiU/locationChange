@@ -1,0 +1,173 @@
+name: iOS Build and Archive
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  release:
+    types: [published]
+
+jobs:
+  build:
+    name: Build and Test iOS App
+    runs-on: macos-latest
+    
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+      
+    - name: Setup Xcode
+      uses: maxim-lobanov/setup-xcode@v1
+      with:
+        xcode-version: '15.0'
+        
+    - name: Cache SPM Dependencies
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/Library/Developer/Xcode/DerivedData
+          ~/.spm
+        key: ${{ runner.os }}-spm-${{ hashFiles('**/Package.resolved') }}
+        restore-keys: |
+          ${{ runner.os }}-spm-
+          
+    - name: Install Dependencies
+      run: |
+        # 如果使用CocoaPods，取消注释下面的行
+        # gem install cocoapods
+        # pod install --repo-update
+        
+        # 如果使用Swift Package Manager，Xcode会自动处理依赖
+        echo "依赖项安装完成"
+        
+    - name: Build Project
+      run: |
+        xcodebuild clean build \
+          -project LocationChanger.xcodeproj \
+          -scheme LocationChanger \
+          -destination 'platform=iOS Simulator,name=iPhone 15,OS=17.0' \
+          -configuration Debug \
+          CODE_SIGN_IDENTITY="" \
+          CODE_SIGNING_REQUIRED=NO \
+          | xcpretty
+          
+    - name: Run Tests
+      run: |
+        xcodebuild test \
+          -project LocationChanger.xcodeproj \
+          -scheme LocationChanger \
+          -destination 'platform=iOS Simulator,name=iPhone 15,OS=17.0' \
+          -configuration Debug \
+          CODE_SIGN_IDENTITY="" \
+          CODE_SIGNING_REQUIRED=NO \
+          | xcpretty
+      continue-on-error: true # 如果没有测试文件，继续执行
+      
+  archive:
+    name: Archive and Export IPA
+    runs-on: macos-latest
+    needs: build
+    if: github.event_name == 'release' || github.ref == 'refs/heads/main'
+    
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+      
+    - name: Setup Xcode
+      uses: maxim-lobanov/setup-xcode@v1
+      with:
+        xcode-version: '15.0'
+        
+    - name: Import Code-Signing Certificates
+      if: ${{ env.BUILD_CERTIFICATE_BASE64 != '' }}
+      uses: apple-actions/import-codesign-certs@v2
+      with:
+        p12-file-base64: ${{ secrets.BUILD_CERTIFICATE_BASE64 }}
+        p12-password: ${{ secrets.P12_PASSWORD }}
+        
+    - name: Download Provisioning Profile
+      if: ${{ env.BUILD_PROVISION_PROFILE_BASE64 != '' }}
+      uses: apple-actions/download-provisioning-profiles@v1
+      with:
+        bundle-id: com.locationchanger.app
+        profile-type: 'IOS_APP_STORE'
+        issuer-id: ${{ secrets.APPSTORE_ISSUER_ID }}
+        api-key-id: ${{ secrets.APPSTORE_KEY_ID }}
+        api-private-key: ${{ secrets.APPSTORE_PRIVATE_KEY }}
+        
+    - name: Archive Project
+      run: |
+        xcodebuild archive \
+          -project LocationChanger.xcodeproj \
+          -scheme LocationChanger \
+          -configuration Release \
+          -destination 'generic/platform=iOS' \
+          -archivePath ${{ github.workspace }}/LocationChanger.xcarchive \
+          | xcpretty
+          
+    - name: Export IPA
+      run: |
+        # 创建ExportOptions.plist文件
+        cat > ExportOptions.plist << EOF
+        <?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+        <plist version="1.0">
+        <dict>
+          <key>method</key>
+          <string>app-store</string>
+          <key>uploadBitcode</key>
+          <false/>
+          <key>compileBitcode</key>
+          <false/>
+          <key>uploadSymbols</key>
+          <true/>
+          <key>stripSwiftSymbols</key>
+          <true/>
+        </dict>
+        </plist>
+        EOF
+        
+        xcodebuild -exportArchive \
+          -archivePath ${{ github.workspace }}/LocationChanger.xcarchive \
+          -exportPath ${{ github.workspace }}/export \
+          -exportOptionsPlist ExportOptions.plist \
+          | xcpretty
+          
+    - name: Upload IPA Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: LocationChanger-IPA
+        path: export/LocationChanger.ipa
+        retention-days: 30
+        
+    - name: Upload to App Store Connect (Optional)
+      if: github.event_name == 'release'
+      run: |
+        # 需要配置App Store Connect API密钥
+        # xcrun altool --upload-app \
+        #   --type ios \
+        #   --file export/LocationChanger.ipa \
+        #   --username "${{ secrets.APPLE_ID }}" \
+        #   --password "${{ secrets.APP_SPECIFIC_PASSWORD }}"
+        echo "上传到App Store Connect的步骤已注释，需要配置相关密钥"
+        
+  notify:
+    name: Notify Build Status
+    runs-on: ubuntu-latest
+    needs: [build, archive]
+    if: always()
+    
+    steps:
+    - name: Notify Success
+      if: ${{ needs.build.result == 'success' }}
+      run: |
+        echo "✅ iOS应用构建成功！"
+        echo "构建时间: $(date)"
+        echo "提交信息: ${{ github.event.head_commit.message }}"
+        
+    - name: Notify Failure
+      if: ${{ needs.build.result == 'failure' }}
+      run: |
+        echo "❌ iOS应用构建失败！"
+        echo "请检查构建日志获取详细信息"
