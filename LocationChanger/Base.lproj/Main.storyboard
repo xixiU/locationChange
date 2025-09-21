@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21679"/>
+        <capability name="Map view configurations" minToolsVersion="14.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Navigation Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="BYZ-38-t0r" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="6Tk-OE-BBY">
+                        <rect key="frame" x="0.0" y="59" width="393" height="96"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="8bC-Xf-vdC" kind="relationship" relationship="rootViewController" id="h0V-Lj-PaS"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="130.53435114503816" y="-27.464788732394368"/>
+        </scene>
+        <!--Main View Controller-->
+        <scene sceneID="s0d-6b-0kx">
+            <objects>
+                <viewController id="8bC-Xf-vdC" customClass="MainViewController" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m2c-Km-GAw">
+                                <rect key="frame" x="0.0" y="155" width="393" height="400"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="400" id="fQa-gH-8bD"/>
+                                </constraints>
+                                <standardMapConfiguration key="preferredConfiguration"/>
+                            </mapView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="当前位置: 未设置" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8RW-fn-1oR">
+                                <rect key="frame" x="16" y="571" width="361" height="21"/>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
+                                <color key="textColor" systemColor="labelColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="fNX-hg-9wL">
+                                <rect key="frame" x="16" y="608" width="361" height="118"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="Kkh-gZ-fhc">
+                                        <rect key="frame" x="90.666666666666686" y="0.0" width="180" height="31"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="虚拟定位" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2bK-Wv-cQY">
+                                                <rect key="frame" x="0.0" y="5" width="68" height="21"/>
+                                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
+                                                <color key="textColor" systemColor="labelColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="aom-eI-Lrq">
+                                                <rect key="frame" x="80" y="0.0" width="51" height="31"/>
+                                            </switch>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="4bX-eH-fhK">
+                                        <rect key="frame" x="0.0" y="39" width="361" height="40"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5GJ-6A-bEH">
+                                                <rect key="frame" x="0.0" y="0.0" width="109" height="40"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="40" id="4Kb-Yh-cHi"/>
+                                                </constraints>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="filled" title="搜索位置"/>
+                                                <connections>
+                                                    <action selector="searchButtonTapped:" destination="8bC-Xf-vdC" eventType="touchUpInside" id="YKF-eX-fhK"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zal-fA-Ztg">
+                                                <rect key="frame" x="121" y="0.0" width="109.66666666666669" height="40"/>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="filled" title="预设位置"/>
+                                                <connections>
+                                                    <action selector="presetButtonTapped:" destination="8bC-Xf-vdC" eventType="touchUpInside" id="mhK-4o-fhL"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aHh-bh-fhK">
+                                                <rect key="frame" x="242.66666666666663" y="0.0" width="118.33333333333337" height="40"/>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="filled" title="历史记录"/>
+                                                <connections>
+                                                    <action selector="historyButtonTapped:" destination="8bC-Xf-vdC" eventType="touchUpInside" id="3hK-Yh-fhL"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="2bX-eH-fhK">
+                                        <rect key="frame" x="55.666666666666657" y="87" width="249.66666666666674" height="31"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bGJ-6A-bEH">
+                                                <rect key="frame" x="0.0" y="0.0" width="118.66666666666667" height="31"/>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="filled" title="收藏位置"/>
+                                                <connections>
+                                                    <action selector="favoritesButtonTapped:" destination="8bC-Xf-vdC" eventType="touchUpInside" id="bKF-eX-fhK"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cGJ-6A-bEH">
+                                                <rect key="frame" x="130.66666666666669" y="0.0" width="119" height="31"/>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="filled" title="设置"/>
+                                                <connections>
+                                                    <action selector="settingsButtonTapped:" destination="8bC-Xf-vdC" eventType="touchUpInside" id="cKF-eX-fhK"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="4bX-eH-fhK" firstAttribute="width" secondItem="fNX-hg-9wL" secondAttribute="width" id="Qhx-4o-fhL"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="fNX-hg-9wL" secondAttribute="bottom" constant="92" id="4Kb-Yh-cHx"/>
+                            <constraint firstItem="m2c-Km-GAw" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="8bC-Xf-vdL"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="m2c-Km-GAw" secondAttribute="trailing" id="Kkh-gZ-fhL"/>
+                            <constraint firstItem="8RW-fn-1oR" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="M2c-Km-GAL"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="8RW-fn-1oR" secondAttribute="trailing" constant="16" id="Qhx-4o-fhK"/>
+                            <constraint firstItem="fNX-hg-9wL" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="YKF-eX-fhL"/>
+                            <constraint firstItem="8RW-fn-1oR" firstAttribute="top" secondItem="m2c-Km-GAw" secondAttribute="bottom" constant="16" id="aHh-bh-fhL"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="fNX-hg-9wL" secondAttribute="trailing" constant="16" id="bKF-eX-fhL"/>
+                            <constraint firstItem="fNX-hg-9wL" firstAttribute="top" secondItem="8RW-fn-1oR" secondAttribute="bottom" constant="16" id="cKF-eX-fhL"/>
+                            <constraint firstItem="m2c-Km-GAw" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="mhK-4o-fhL"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="2bK-Wv-cQL"/>
+                    <connections>
+                        <outlet property="currentLocationLabel" destination="8RW-fn-1oR" id="8RW-fn-1oL"/>
+                        <outlet property="favoritesButton" destination="bGJ-6A-bEH" id="bGJ-6A-bEL"/>
+                        <outlet property="historyButton" destination="aHh-bh-fhK" id="aHh-bh-fhL"/>
+                        <outlet property="mapView" destination="m2c-Km-GAw" id="m2c-Km-GAL"/>
+                        <outlet property="presetButton" destination="Zal-fA-Ztg" id="Zal-fA-ZtL"/>
+                        <outlet property="searchButton" destination="5GJ-6A-bEH" id="5GJ-6A-bEL"/>
+                        <outlet property="settingsButton" destination="cGJ-6A-bEH" id="cGJ-6A-bEL"/>
+                        <outlet property="virtualLocationSwitch" destination="aom-eI-Lrq" id="aom-eI-LrL"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1047.3282442748091" y="-27.464788732394368"/>
+        </scene>
+    </scenes>
+    <resources>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
