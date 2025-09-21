@@ -18,7 +18,7 @@ jobs:
     - name: 设置Xcode版本
       uses: maxim-lobanov/setup-xcode@v1
       with:
-        xcode-version: '15.0'
+        xcode-version: '16.0'
         
     - name: 检查项目结构
       run: |
@@ -53,7 +53,7 @@ jobs:
         xcodebuild clean build \
           -project LocationChanger.xcodeproj \
           -scheme LocationChanger \
-          -destination 'platform=iOS Simulator,name=iPhone 15,OS=17.0' \
+          -destination 'platform=iOS Simulator,name=iPhone 15,OS=18.0' \
           -configuration Debug \
           -quiet \
           CODE_SIGN_IDENTITY="" \

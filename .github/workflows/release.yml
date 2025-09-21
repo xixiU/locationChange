@@ -76,7 +76,7 @@ jobs:
     - name: 设置Xcode
       uses: maxim-lobanov/setup-xcode@v1
       with:
-        xcode-version: '15.0'
+        xcode-version: '16.0'
         
     - name: 缓存构建依赖
       uses: actions/cache@v3
@@ -96,7 +96,7 @@ jobs:
           -project LocationChanger.xcodeproj \
           -scheme LocationChanger \
           -configuration Release \
-          -destination 'platform=iOS Simulator,name=iPhone 15,OS=17.0' \
+          -destination 'platform=iOS Simulator,name=iPhone 15,OS=18.0' \
           CODE_SIGN_IDENTITY="" \
           CODE_SIGNING_REQUIRED=NO \
           | xcpretty
@@ -131,7 +131,7 @@ jobs:
         - **版本号**: ${{ needs.prepare-release.outputs.version }}
         - **构建号**: ${{ needs.prepare-release.outputs.build_number }}
         - **构建时间**: $(date '+%Y-%m-%d %H:%M:%S')
-        - **iOS最低版本**: 17.0
+        - **iOS最低版本**: 18.0
         
         ## 🎯 主要功能
         - ✅ 虚拟定位设置和切换
@@ -151,7 +151,7 @@ jobs:
         
         ## 📥 安装说明
         1. 下载源码包
-        2. 使用Xcode 15.0+打开项目
+        2. 使用Xcode 16.0+打开项目
         3. 连接iOS设备或选择模拟器
         4. 点击运行按钮进行安装
         

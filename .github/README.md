@@ -135,10 +135,10 @@ APPSTORE_PRIVATE_KEY         # App Store Connect私钥
 - name: Setup Xcode
   uses: maxim-lobanov/setup-xcode@v1
   with:
-    xcode-version: '15.0'  # 修改为所需版本
+    xcode-version: '16.0'  # 修改为所需版本
 
 # 修改iOS模拟器版本
--destination 'platform=iOS Simulator,name=iPhone 15,OS=17.0'
+-destination 'platform=iOS Simulator,name=iPhone 15,OS=18.0'
 ```
 
 ### 添加额外的检查步骤

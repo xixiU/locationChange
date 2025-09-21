@@ -3,8 +3,8 @@
 ![CI Status](https://github.com/your-username/location_change/workflows/Continuous%20Integration/badge.svg)
 ![iOS Build](https://github.com/your-username/location_change/workflows/iOS%20Build%20and%20Archive/badge.svg)
 ![Release](https://github.com/your-username/location_change/workflows/Release%20Build/badge.svg)
-![iOS Version](https://img.shields.io/badge/iOS-17.0%2B-blue.svg)
-![Xcode Version](https://img.shields.io/badge/Xcode-15.0%2B-blue.svg)
+![iOS Version](https://img.shields.io/badge/iOS-18.0%2B-blue.svg)
+![Xcode Version](https://img.shields.io/badge/Xcode-16.0%2B-blue.svg)
 ![Swift Version](https://img.shields.io/badge/Swift-5.0%2B-orange.svg)
 
 一款功能完整的iOS虚拟定位应用，支持自定义位置设置、位置搜索、历史记录和收藏功能。
@@ -125,8 +125,8 @@ LocationChanger/
 
 ## 开发环境
 
-- **Xcode**: 15.0+
-- **iOS**: 17.0+
+- **Xcode**: 16.0+
+- **iOS**: 18.0+
 - **Swift**: 5.0+
 - **部署目标**: iPhone & iPad
 
